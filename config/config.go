@@ -11,18 +11,18 @@ type Config struct {
 	AppName   string `env:"APP_NAME,default=starter-api"`
 	Port      Port
 	HashID    HashID
-	Google    Google
-	AWS       AWS
-	Postgres  Postgres
-	Redis     Redis
-	SMTP      SMTP
 	JWTConfig JWTConfig
-	Image     Image
-	OneSignal OneSignal
-	Jaeger    Jaeger
-	URL       URL
-	MailGun   MailGun
-	Sendgrid  Sendgrid
+	Postgres  Postgres
+	// Google    Google
+	// AWS       AWS
+	// Redis     Redis
+	// SMTP      SMTP
+	// Image     Image
+	// OneSignal OneSignal
+	// Jaeger    Jaeger
+	// URL       URL
+	// MailGun   MailGun
+	// Sendgrid  Sendgrid
 }
 
 // Port holds configuration for project's port.
@@ -31,30 +31,30 @@ type Port struct {
 }
 
 // Google holds configuration for the Google.
-type Google struct {
-	ProjectID          string `env:"GOOGLE_PROJECT_ID"`
-	ServiceAccountFile string `env:"GOOGLE_SA"`
-	StorageBucketName  string `env:"GOOGLE_STORAGE_BUCKET_NAME"`
-	StorageEndpoint    string `env:"GOOGLE_STORAGE_ENDPOINT"`
-}
+// type Google struct {
+// 	ProjectID          string `env:"GOOGLE_PROJECT_ID"`
+// 	ServiceAccountFile string `env:"GOOGLE_SA"`
+// 	StorageBucketName  string `env:"GOOGLE_STORAGE_BUCKET_NAME"`
+// 	StorageEndpoint    string `env:"GOOGLE_STORAGE_ENDPOINT"`
+// }
 
 // AWS holds configuration for the AWS.
-type AWS struct {
-	AccessKeyID     string `env:"AWS_ACCESS_KEY_ID"`
-	SecretAccessKey string `env:"AWS_SECRET_ACCESS_KEY"`
-	Region          string `env:"AWS_REGION"`
-	BucketName      string `env:"AWS_BUCKET_NAME"`
-}
+// type AWS struct {
+// 	AccessKeyID     string `env:"AWS_ACCESS_KEY_ID"`
+// 	SecretAccessKey string `env:"AWS_SECRET_ACCESS_KEY"`
+// 	Region          string `env:"AWS_REGION"`
+// 	BucketName      string `env:"AWS_BUCKET_NAME"`
+// }
 
 // Image holds configuration for the Image.
-type Image struct {
-	Host string `env:"IMAGE_HOST"`
-}
+// type Image struct {
+// 	Host string `env:"IMAGE_HOST"`
+// }
 
 // URL holds configuration for the URL.
-type URL struct {
-	ForgotPasswordURL string `env:"FORGOT_PASSWORD_URL"`
-}
+// type URL struct {
+// 	ForgotPasswordURL string `env:"FORGOT_PASSWORD_URL"`
+// }
 
 // HashID holds configuration for HashID.
 type HashID struct {
@@ -75,18 +75,18 @@ type Postgres struct {
 }
 
 // Redis holds configuration for the Redis.
-type Redis struct {
-	Address  string `env:"REDIS_ADDRESS"`
-	Password string `env:"REDIS_PASSWORD"`
-}
+// type Redis struct {
+// 	Address  string `env:"REDIS_ADDRESS"`
+// 	Password string `env:"REDIS_PASSWORD"`
+// }
 
 // SMTP holds configuration for smtp email.
-type SMTP struct {
-	Host string `env:"SMTP_HOST,required"`
-	Port int    `env:"SMTP_PORT,default=587"`
-	User string `env:"SMTP_USER,required"`
-	Pass string `env:"SMTP_PASS,required"`
-}
+// type SMTP struct {
+// 	Host string `env:"SMTP_HOST,required"`
+// 	Port int    `env:"SMTP_PORT,default=587"`
+// 	User string `env:"SMTP_USER,required"`
+// 	Pass string `env:"SMTP_PASS,required"`
+// }
 
 // JWTConfig holds configuration for jwt.
 type JWTConfig struct {
@@ -97,30 +97,30 @@ type JWTConfig struct {
 }
 
 // OneSignal holds configuration for the OneSignal.
-type OneSignal struct {
-	AppID  string `env:"ONESIGNAL_APP_ID"`
-	AppKey string `env:"ONESIGNAL_APP_KEY"`
-}
+// type OneSignal struct {
+// 	AppID  string `env:"ONESIGNAL_APP_ID"`
+// 	AppKey string `env:"ONESIGNAL_APP_KEY"`
+// }
 
 // MailGun holds configuration for the MailGun.
-type MailGun struct {
-	From   string `env:"MAILGUN_FROM"`
-	Domain string `env:"MAILGUN_DOMAIN"`
-	APIKey string `env:"MAILGUN_API_KEY"`
-}
+// type MailGun struct {
+// 	From   string `env:"MAILGUN_FROM"`
+// 	Domain string `env:"MAILGUN_DOMAIN"`
+// 	APIKey string `env:"MAILGUN_API_KEY"`
+// }
 
 // Sendgrid holds configuration for the Sendgrid.
-type Sendgrid struct {
-	FromName  string `env:"SENDGRID_FROM_NAME"`
-	FromEmail string `env:"SENDGRID_FROM_EMAIL"`
-	APIKey    string `env:"SENDGRID_API_KEY"`
-}
+// type Sendgrid struct {
+// 	FromName  string `env:"SENDGRID_FROM_NAME"`
+// 	FromEmail string `env:"SENDGRID_FROM_EMAIL"`
+// 	APIKey    string `env:"SENDGRID_API_KEY"`
+// }
 
 // Jaeger holds configuration for the Jaeger.
-type Jaeger struct {
-	Address string `env:"JAEGER_ADDRESS"`
-	Port    string `env:"JAEGER_PORT"`
-}
+// type Jaeger struct {
+// 	Address string `env:"JAEGER_ADDRESS"`
+// 	Port    string `env:"JAEGER_PORT"`
+// }
 
 // LoadConfig initiate load config either from env file or os env
 func LoadConfig(env string) (*Config, error) {
