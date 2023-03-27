@@ -5,10 +5,8 @@ import (
 	"gin-starter-gits/config"
 	"strconv"
 	"time"
-
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-
 	gormLogger "gorm.io/gorm/logger"
 )
 

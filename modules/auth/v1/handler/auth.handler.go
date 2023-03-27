@@ -5,9 +5,7 @@ import (
 	"gin-starter-gits/modules/auth/v1/service"
 	"gin-starter-gits/response"
 	"net/http"
-
 	"github.com/gin-gonic/gin"
-
 	"gin-starter-gits/resource"
 )
 

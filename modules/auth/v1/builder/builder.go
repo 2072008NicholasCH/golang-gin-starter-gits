@@ -3,10 +3,8 @@ package builder
 import (
 	"gin-starter-gits/app"
 	"gin-starter-gits/config"
-
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
-
 	authRepo "gin-starter-gits/modules/auth/v1/repository"
 	auth "gin-starter-gits/modules/auth/v1/service"
 )

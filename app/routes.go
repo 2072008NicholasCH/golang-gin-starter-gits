@@ -4,10 +4,8 @@ import (
 	"gin-starter-gits/config"
 	"gin-starter-gits/response"
 	"net/http"
-
 	authhandlerv1 "gin-starter-gits/modules/auth/v1/handler"
 	authservicev1 "gin-starter-gits/modules/auth/v1/service"
-
 	"github.com/gin-gonic/gin"
 )
 

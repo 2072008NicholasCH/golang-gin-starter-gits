@@ -90,10 +90,10 @@ type Postgres struct {
 
 // JWTConfig holds configuration for jwt.
 type JWTConfig struct {
-	Public    string `env:"JWT_PUBLIC,required"`
-	Private   string `env:"JWT_PRIVATE,required"`
-	Issuer    string `env:"JWT_ISSUER,required"`
-	IssuerCMS string `env:"JWT_ISSUER_CMS,required"`
+	Public  string `env:"JWT_PUBLIC,required"`
+	Private string `env:"JWT_PRIVATE,required"`
+	Issuer  string `env:"JWT_ISSUER,required"`
+	// IssuerCMS string `env:"JWT_ISSUER_CMS,required"`
 }
 
 // OneSignal holds configuration for the OneSignal.

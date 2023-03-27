@@ -7,10 +7,8 @@ import (
 	"gin-starter-gits/config"
 	"io/ioutil"
 	"time"
-
 	"github.com/golang-jwt/jwt"
 	"github.com/google/uuid"
-
 	"gin-starter-gits/common/constant"
 )
 

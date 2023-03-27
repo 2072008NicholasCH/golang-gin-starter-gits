@@ -3,9 +3,7 @@ package entity
 import (
 	"database/sql"
 	"time"
-
 	"gorm.io/gorm"
-
 	"gin-starter-gits/utils"
 )
 
