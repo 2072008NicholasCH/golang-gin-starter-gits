@@ -13,6 +13,7 @@ import (
 	"gin-starter-gits/utils"
 
 	authBuilder "gin-starter-gits/modules/auth/v1/builder"
+	authorBuilder "gin-starter-gits/modules/author/v1/builder"
 )
 
 const (
@@ -118,17 +119,21 @@ func BuildHandler(
 	// redisPool *redis.Pool,
 	// awsSession *session.Session
 ) {
-	app.DefaultHTTPHandler(cfg, router)
+	// app.DefaultHTTPHandler(cfg, router)
 	// authBuilder.BuildAuthHandler(cfg, router, db, redisPool, awsSession)
 	// userBuilder.BuildUserHandler(cfg, router, db, redisPool, awsSession)
 	// notificationBuilder.BuildNotificationHandler(cfg, router, db, redisPool, awsSession)
 	// masterBuilder.BuildMasterHandler(cfg, router, db, redisPool, awsSession)
 	// paymentBuilder.BuildPaymentHandler(cfg, router, db, redisPool, awsSession)
-	authBuilder.BuildAuthHandler(cfg, router, db)
+	// authBuilder.BuildAuthHandler(cfg, router, db)
 	// userBuilder.BuildUserHandler(cfg, router, db)
 	// notificationBuilder.BuildNotificationHandler(cfg, router, db)
 	// masterBuilder.BuildMasterHandler(cfg, router, db)
 	// paymentBuilder.BuildPaymentHandler(cfg, router, db)
+
+	app.DefaultHTTPHandler(cfg, router)
+	authBuilder.BuildAuthHandler(cfg, router, db)
+	authorBuilder.BuildAuthorHandler(cfg, router, db)
 }
 
 func checkError(err error) {

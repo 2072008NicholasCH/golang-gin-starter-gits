@@ -2,10 +2,14 @@ package app
 
 import (
 	"gin-starter-gits/config"
-	"gin-starter-gits/response"
-	"net/http"
+	"gin-starter-gits/middleware"
 	authhandlerv1 "gin-starter-gits/modules/auth/v1/handler"
 	authservicev1 "gin-starter-gits/modules/auth/v1/service"
+	authorhandlerv1 "gin-starter-gits/modules/author/v1/handler"
+	authorservicev1 "gin-starter-gits/modules/author/v1/service"
+	"gin-starter-gits/response"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -29,5 +33,18 @@ func AuthHTTPHandler(cfg config.Config, router *gin.Engine, auc authservicev1.Au
 	v1 := router.Group("/v1")
 	{
 		v1.POST("/user/login", hnd.Login)
+	}
+}
+
+// AuthHTTPHandler is a handler for author APIs
+func AuthorFinderHTTPHandler(cfg config.Config, router *gin.Engine, atc authorservicev1.AuthorFinderUseCase) {
+	hnd := authorhandlerv1.NewAuthorHandler(atc)
+	v1 := router.Group("/v1")
+
+	v1.Use(middleware.Auth(cfg))
+
+	{
+		v1.GET("/author", hnd.GetAuthors)
+		v1.GET("/author/detail/:id", hnd.GetAuthorByID)
 	}
 }
