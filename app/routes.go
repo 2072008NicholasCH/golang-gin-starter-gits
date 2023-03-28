@@ -7,6 +7,8 @@ import (
 	authservicev1 "gin-starter-gits/modules/auth/v1/service"
 	authorhandlerv1 "gin-starter-gits/modules/author/v1/handler"
 	authorservicev1 "gin-starter-gits/modules/author/v1/service"
+	publisherhandlerv1 "gin-starter-gits/modules/publisher/v1/handler"
+	publisherservicev1 "gin-starter-gits/modules/publisher/v1/service"
 	"gin-starter-gits/response"
 	"net/http"
 
@@ -46,5 +48,18 @@ func AuthorFinderHTTPHandler(cfg config.Config, router *gin.Engine, atc authorse
 	{
 		v1.GET("/author", hnd.GetAuthors)
 		v1.GET("/author/detail/:id", hnd.GetAuthorByID)
+	}
+}
+
+// PublisherHTTPHandler is a handler for publisher APIs
+func PublisherFinderHTTPHandler(cfg config.Config, router *gin.Engine, ptc publisherservicev1.PublisherFinderUseCase) {
+	hnd := publisherhandlerv1.NewPublisherHandler(ptc)
+	v1 := router.Group("/v1")
+
+	v1.Use(middleware.Auth(cfg))
+
+	{
+		v1.GET("/publisher", hnd.GetPublishers)
+		v1.GET("/publisher/detail/:id", hnd.GetPublisherByID)
 	}
 }
