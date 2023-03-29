@@ -2,9 +2,12 @@ package repository
 
 import (
 	"context"
+	"fmt"
 	"gin-starter-gits/entity"
 
+	"github.com/google/uuid"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type PublisherRepository struct {
@@ -13,10 +16,10 @@ type PublisherRepository struct {
 
 type PublisherRepositoryUseCase interface {
 	FindAll(ctx context.Context) ([]*entity.Publisher, error)
-	FindByID(ctx context.Context, id int64) (*entity.Publisher, error)
+	FindByID(ctx context.Context, uuid uuid.UUID) (*entity.Publisher, error)
 	CreatePublisher(ctx context.Context, publisher *entity.Publisher) (*entity.Publisher, error)
-	UpdatePublisher(ctx context.Context, publisher *entity.Publisher) (*entity.Publisher, error)
-	DeletePublisher(ctx context.Context, id int64) error
+	UpdatePublisher(ctx context.Context, publisher *entity.Publisher) error
+	DeletePublisher(ctx context.Context, uuid uuid.UUID) error
 }
 
 func NewPublisherRepository(db *gorm.DB) *PublisherRepository {
@@ -32,9 +35,9 @@ func (r *PublisherRepository) FindAll(ctx context.Context) ([]*entity.Publisher,
 	return publishers, nil
 }
 
-func (r *PublisherRepository) FindByID(ctx context.Context, id int64) (*entity.Publisher, error) {
+func (r *PublisherRepository) FindByID(ctx context.Context, uuid uuid.UUID) (*entity.Publisher, error) {
 	var publisher *entity.Publisher
-	err := r.db.Where("id = ?", id).First(&publisher).Error
+	err := r.db.Where("uuid = ?", uuid).First(&publisher).Error
 	if err != nil {
 		return nil, err
 	}
@@ -51,17 +54,39 @@ func (r *PublisherRepository) CreatePublisher(ctx context.Context, publisher *en
 }
 
 // UpdatePublisher updates a publisher
-func (r *PublisherRepository) UpdatePublisher(ctx context.Context, publisher *entity.Publisher) (*entity.Publisher, error) {
-	err := r.db.Save(&publisher).Error
-	if err != nil {
-		return nil, err
+//
+//	func (r *PublisherRepository) UpdatePublisher(ctx context.Context, publisher *entity.Publisher) error {
+//		err := r.db.Save(&publisher).Error
+//		if err != nil {
+//			return err
+//		}
+//		return nil
+//	}
+func (pr *PublisherRepository) UpdatePublisher(ctx context.Context, publisher *entity.Publisher) error {
+	if err := pr.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
+		sourceModelPublisher := new(entity.Publisher)
+		if err := tx.Clauses(clause.Locking{
+			Strength: "UPDATE",
+		}).Where("uuid = ?", publisher.UUID).Find(&sourceModelPublisher).Error; err != nil {
+			return fmt.Errorf("[PublisherRepository-Update] error while finding publisher")
+		}
+
+		if err := tx.Model(&entity.Publisher{}).
+			Where("uuid = ?", publisher.UUID).
+			UpdateColumns(sourceModelPublisher.MapUpdateFrom(publisher)).
+			Error; err != nil {
+			return fmt.Errorf("[PublisherRepository-Update] error while updating publisher")
+		}
+		return nil
+	}); err != nil {
+		return err
 	}
-	return publisher, nil
+	return nil
 }
 
 // DeletePublisher deletes a publisher
-func (r *PublisherRepository) DeletePublisher(ctx context.Context, id int64) error {
-	err := r.db.Where("id = ?", id).Delete(&entity.Publisher{}).Error
+func (r *PublisherRepository) DeletePublisher(ctx context.Context, uuid uuid.UUID) error {
+	err := r.db.Where("uuid = ?", uuid).Delete(&entity.Publisher{}).Error
 	if err != nil {
 		return err
 	}

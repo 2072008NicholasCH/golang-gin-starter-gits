@@ -17,9 +17,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//==================================================================================================
+
 // DeprecatedAPI is a handler for deprecated APIs
 func DeprecatedAPI(c *gin.Context) {
-	c.JSON(http.StatusForbidden, response.ErrorAPIResponse(http.StatusForbidden, "this version of api is deprecated. please use another version."))
+	c.JSON(
+		http.StatusForbidden,
+		response.ErrorAPIResponse(
+			http.StatusForbidden, "this version of api is deprecated. please use another version.",
+		),
+	)
 	c.Abort()
 }
 
@@ -31,6 +38,8 @@ func DefaultHTTPHandler(cfg config.Config, router *gin.Engine) {
 	})
 }
 
+//==================================================================================================
+
 // AuthHTTPHandler is a handler for auth APIs
 func AuthHTTPHandler(cfg config.Config, router *gin.Engine, auc authservicev1.AuthUseCase) {
 	hnd := authhandlerv1.NewAuthHandler(auc)
@@ -40,9 +49,11 @@ func AuthHTTPHandler(cfg config.Config, router *gin.Engine, auc authservicev1.Au
 	}
 }
 
+//==================================================================================================
+
 // AuthHTTPHandler is a handler for author APIs
-func AuthorFinderHTTPHandler(cfg config.Config, router *gin.Engine, atc authorservicev1.AuthorFinderUseCase) {
-	hnd := authorhandlerv1.NewAuthorHandler(atc)
+func AuthorFinderHTTPHandler(cfg config.Config, router *gin.Engine, atfuc authorservicev1.AuthorFinderUseCase) {
+	hnd := authorhandlerv1.NewAuthorHandler(atfuc)
 	v1 := router.Group("/v1")
 
 	v1.Use(middleware.Auth(cfg))
@@ -53,9 +64,15 @@ func AuthorFinderHTTPHandler(cfg config.Config, router *gin.Engine, atc authorse
 	}
 }
 
+//==================================================================================================
+
 // PublisherHTTPHandler is a handler for publisher APIs
-func PublisherFinderHTTPHandler(cfg config.Config, router *gin.Engine, ptc publisherservicev1.PublisherFinderUseCase) {
-	hnd := publisherhandlerv1.NewPublisherHandler(ptc)
+func PublisherFinderHTTPHandler(
+	cfg config.Config,
+	router *gin.Engine,
+	pfuc publisherservicev1.PublisherFinderUseCase,
+) {
+	hnd := publisherhandlerv1.NewPublisherHandler(pfuc)
 	v1 := router.Group("/v1")
 
 	v1.Use(middleware.Auth(cfg))
@@ -65,6 +82,57 @@ func PublisherFinderHTTPHandler(cfg config.Config, router *gin.Engine, ptc publi
 		v1.GET("/publisher/detail/:id", hnd.GetPublisherByID)
 	}
 }
+
+// PubliserCreatorHTTPHandler is a handler for publisher APIs
+func PublisherCreatorHTTPHandler(
+	cfg config.Config,
+	router *gin.Engine,
+	pfuc publisherservicev1.PublisherCreatorUseCase,
+) {
+	hnd := publisherhandlerv1.NewPublisherCreatorHandler(pfuc)
+	v1 := router.Group("/v1")
+
+	v1.Use(middleware.Auth(cfg))
+
+	{
+		v1.POST("/publisher", hnd.CreatePublisher)
+	}
+}
+
+// PubliserUpdaterHTTPHandler is a handler for publisher APIs
+func PublisherUpdaterHTTPHandler(
+	cfg config.Config,
+	router *gin.Engine,
+	puuc publisherservicev1.PublisherUpdaterUseCase,
+	pfuc publisherservicev1.PublisherFinderUseCase,
+) {
+	hnd := publisherhandlerv1.NewPublisherUpdaterHandler(puuc, pfuc)
+	v1 := router.Group("/v1")
+
+	v1.Use(middleware.Auth(cfg))
+
+	{
+		v1.PUT("/publisher/:id", hnd.UpdatePublisher)
+	}
+}
+
+// PubliserDeleterHTTPHandler is a handler for publisher APIs
+func PublisherDeleterHTTPHandler(
+	cfg config.Config,
+	router *gin.Engine,
+	pduc publisherservicev1.PublisherDeleterUseCase,
+) {
+	hnd := publisherhandlerv1.NewPublisherDeleterHandler(pduc)
+	v1 := router.Group("/v1")
+
+	v1.Use(middleware.Auth(cfg))
+
+	{
+		v1.DELETE("/publisher/:id", hnd.DeletePublisher)
+	}
+}
+
+//==================================================================================================
 
 // BookHTTPHandler is a handler for book APIs
 func BookFinderHTTPHandler(cfg config.Config, router *gin.Engine, btc bookservicev1.BookFinderUseCase) {
@@ -78,3 +146,5 @@ func BookFinderHTTPHandler(cfg config.Config, router *gin.Engine, btc bookservic
 		v1.GET("/book/detail/:id", hnd.GetBookByID)
 	}
 }
+
+//==================================================================================================

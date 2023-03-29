@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 type PublisherFinderHandler struct {
@@ -28,19 +29,25 @@ func (pf *PublisherFinderHandler) GetPublishers(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"data": publishers})
+	res := make([]*resource.Publisher, 0)
+
+	for _, publisher := range publishers {
+		res = append(res, resource.NewPublisherResponse(publisher))
+	}
+	c.JSON(http.StatusOK, response.SuccessAPIResponseList(http.StatusOK, "success", &resource.PublisherListResponse{List: res, Total: int64(len(res))}))
 }
 
 // Get Publisher by ID
 func (pf *PublisherFinderHandler) GetPublisherByID(c *gin.Context) {
-	var req resource.GetPublisherByIDRequest
+	var req resource.GetPublisherByUUIDRequest
+	// fmt.Println(c.ShouldBind(&req))
 	if err := c.ShouldBindUri(&req); err != nil {
 		c.JSON(http.StatusBadRequest, response.ErrorAPIResponse(http.StatusBadRequest, err.Error()))
 		c.Abort()
 		return
 	}
-
-	publisher, err := pf.publisherFinder.GetPublisherByID(c.Request.Context(), req.ID)
+	pubUUID, _ := uuid.Parse(req.UUID)
+	publisher, err := pf.publisherFinder.GetPublisherByID(c.Request.Context(), pubUUID)
 	if err != nil {
 		c.JSON(errors.ErrInternalServerError.Code, response.ErrorAPIResponse(errors.ErrInternalServerError.Code, err.Error()))
 		c.Abort()

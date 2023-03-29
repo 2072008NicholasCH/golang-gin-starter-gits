@@ -5,6 +5,8 @@ import (
 	"gin-starter-gits/config"
 	"gin-starter-gits/entity"
 	"gin-starter-gits/modules/publisher/v1/repository"
+
+	"github.com/google/uuid"
 )
 
 type PublisherFinder struct {
@@ -14,7 +16,7 @@ type PublisherFinder struct {
 
 type PublisherFinderUseCase interface {
 	GetPublishers(ctx context.Context) ([]*entity.Publisher, error)
-	GetPublisherByID(ctx context.Context, id int64) (*entity.Publisher, error)
+	GetPublisherByID(ctx context.Context, uuid uuid.UUID) (*entity.Publisher, error)
 }
 
 func NewPublisherFinder(
@@ -32,8 +34,8 @@ func (s *PublisherFinder) GetPublishers(ctx context.Context) ([]*entity.Publishe
 	return publishers, nil
 }
 
-func (s *PublisherFinder) GetPublisherByID(ctx context.Context, id int64) (*entity.Publisher, error) {
-	publisher, err := s.publisherRepo.FindByID(ctx, id)
+func (s *PublisherFinder) GetPublisherByID(ctx context.Context, uuid uuid.UUID) (*entity.Publisher, error) {
+	publisher, err := s.publisherRepo.FindByID(ctx, uuid)
 	if err != nil {
 		return nil, err
 	}

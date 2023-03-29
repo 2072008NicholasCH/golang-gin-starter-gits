@@ -5,6 +5,8 @@ import (
 	"gin-starter-gits/config"
 	"gin-starter-gits/entity"
 	"gin-starter-gits/modules/publisher/v1/repository"
+
+	"github.com/google/uuid"
 )
 
 type PublisherCreator struct {
@@ -13,7 +15,7 @@ type PublisherCreator struct {
 }
 
 type PublisherCreatorUseCase interface {
-	CreatePublisher(ctx context.Context, id int64, name, kota string) (*entity.Publisher, error)
+	CreatePublisher(ctx context.Context, name, kota string) (*entity.Publisher, error)
 }
 
 func NewPublisherCreator(cfg config.Config, publisherRepo repository.PublisherRepositoryUseCase) *PublisherCreator {
@@ -21,11 +23,12 @@ func NewPublisherCreator(cfg config.Config, publisherRepo repository.PublisherRe
 }
 
 // CreatePublisher creates a new publisher
-func (pc *PublisherCreator) CreatePublisher(ctx context.Context, id int64, name, kota string) (*entity.Publisher, error) {
+func (pc *PublisherCreator) CreatePublisher(ctx context.Context, name, kota string) (*entity.Publisher, error) {
 	publisher := entity.NewPublisher(
-		id,
+		uuid.New(),
 		name,
 		kota,
+		"system",
 	)
 
 	if _, err := pc.publisherRepo.CreatePublisher(ctx, publisher); err != nil {

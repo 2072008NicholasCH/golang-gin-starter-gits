@@ -6,8 +6,22 @@ import (
 	"github.com/google/uuid"
 )
 
-type GetPublisherByIDRequest struct {
-	ID int64 `uri:"id" binding:"required"`
+type GetPublisherByUUIDRequest struct {
+	UUID string `uri:"id" binding:"required"`
+}
+
+type CreatePublisherRequest struct {
+	NAME string `json:"name" binding:"required"`
+	KOTA string `json:"kota" binding:"required"`
+}
+
+type UpdatePublisherRequest struct {
+	NAME string `json:"name" binding:"required"`
+	KOTA string `json:"kota" binding:"required"`
+}
+
+type DeletePublisherRequest struct {
+	UUID string `uri:"id" binding:"required"`
 }
 
 type Publisher struct {

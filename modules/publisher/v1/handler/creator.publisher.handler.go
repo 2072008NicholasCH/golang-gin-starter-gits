@@ -3,6 +3,8 @@ package handler
 import (
 	"gin-starter-gits/common/errors"
 	"gin-starter-gits/modules/publisher/v1/service"
+	"gin-starter-gits/resource"
+	"gin-starter-gits/response"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -19,7 +21,7 @@ func NewPublisherCreatorHandler(
 	return &PublisherCreatorHandler{publisherCreator}
 }
 
-// CreatePublisher creates a new publisher
+// CreatePublisher is a handler for creating publisher
 func (pch *PublisherCreatorHandler) CreatePublisher(c *gin.Context) {
 	var req resource.CreatePublisherRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -27,11 +29,13 @@ func (pch *PublisherCreatorHandler) CreatePublisher(c *gin.Context) {
 		c.Abort()
 		return
 	}
-	publisher, err := pch.publisherCreator.CreatePublisher(c.Request.Context(), req.ID, req.Name, req.Kota)
+
+	publisher, err := pch.publisherCreator.CreatePublisher(c, req.NAME, req.KOTA)
 	if err != nil {
 		c.JSON(errors.ErrInternalServerError.Code, response.ErrorAPIResponse(errors.ErrInternalServerError.Code, err.Error()))
 		c.Abort()
 		return
 	}
-	c.JSON(http.StatusOK, response.SuccessAPIResponse(http.StatusOK, "success", resource.NewPublisherResponse(publisher)))
+
+	c.JSON(http.StatusOK, response.SuccessAPIResponseList(http.StatusOK, "success", resource.NewPublisherResponse(publisher)))
 }
