@@ -1,20 +1,24 @@
 package resource
 
-import "gin-starter-gits/entity"
+import (
+	"gin-starter-gits/entity"
+
+	"github.com/google/uuid"
+)
 
 type GetAuthorByIDRequest struct {
 	ID int64 `uri:"id" binding:"required"`
 }
 
 type Author struct {
-	ID     int64  `json:"id"`
-	NAME   string `json:"name"`
-	GENDER string `json:"gender"`
+	UUID   uuid.UUID `json:"uuid"`
+	NAME   string    `json:"name"`
+	GENDER string    `json:"gender"`
 }
 
 func NewAuthorResponse(author *entity.Author) *Author {
 	return &Author{
-		ID:     author.ID,
+		UUID:   author.UUID,
 		NAME:   author.Name,
 		GENDER: author.Gender,
 	}

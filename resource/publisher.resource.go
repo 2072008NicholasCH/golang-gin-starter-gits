@@ -1,20 +1,24 @@
 package resource
 
-import "gin-starter-gits/entity"
+import (
+	"gin-starter-gits/entity"
+
+	"github.com/google/uuid"
+)
 
 type GetPublisherByIDRequest struct {
 	ID int64 `uri:"id" binding:"required"`
 }
 
 type Publisher struct {
-	ID   int64  `json:"id"`
-	NAME string `json:"name"`
-	KOTA string `json:"kota"`
+	UUID uuid.UUID `json:"uuid"`
+	NAME string    `json:"name"`
+	KOTA string    `json:"kota"`
 }
 
 func NewPublisherResponse(publisher *entity.Publisher) *Publisher {
 	return &Publisher{
-		ID:   publisher.ID,
+		UUID: publisher.UUID,
 		NAME: publisher.Name,
 		KOTA: publisher.Kota,
 	}

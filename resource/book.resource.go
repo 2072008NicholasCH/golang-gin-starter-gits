@@ -18,7 +18,7 @@ func NewBookResponse(book *entity.Book) *Book {
 		ID:           book.ID,
 		TITLE:        book.Title,
 		AUTHOR_ID:    book.AuthorID,
-		PUBLISHER_ID: book.PubliserID,
+		PUBLISHER_ID: book.PublisherID,
 	}
 }
 

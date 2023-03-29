@@ -19,11 +19,7 @@ func NewLoginResponse(token string) *LoginResponse {
 }
 
 type RegisterRequest struct {
-	Name       string `form:"name,omitempty" json:"name,omitempty" binding:"required"`
-	Email      string `form:"email,omitempty" json:"email,omitempty" binding:"required"`
-	Password   string `form:"password,omitempty" json:"password,omitempty" binding:"required"`
-	Gender     int    `form:"gender,omitempty" json:"gender,omitempty" binding:"required"`
-	Birthday   string `form:"birthday,omitempty" json:"birthday,omitempty" binding:"required"`
-	Birthplace string `form:"birthplace,omitempty" json:"birthplace,omitempty" binding:"required"`
-	Phone      string `form:"phone,omitempty" json:"phone,omitempty" binding:"required"`
+	Name     string `form:"name,omitempty" json:"name,omitempty" binding:"required"`
+	Email    string `form:"email,omitempty" json:"email,omitempty" binding:"required"`
+	Password string `form:"password,omitempty" json:"password,omitempty" binding:"required"`
 }
