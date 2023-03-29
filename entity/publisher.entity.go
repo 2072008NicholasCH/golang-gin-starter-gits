@@ -1,13 +1,16 @@
 package entity
 
+import "github.com/google/uuid"
+
 const (
 	publisherTableName = "main.publishers"
 )
 
 type Publisher struct {
-	ID   int64  `json:"id"`
-	Name string `json:"name"`
-	Kota string `json:"kota"`
+	ID   int64     `json:"id"`
+	UUID uuid.UUID `json:"uuid"`
+	Name string    `json:"name"`
+	Kota string    `json:"kota"`
 	Auditable
 }
 
@@ -16,12 +19,13 @@ func (model *Publisher) TableName() string {
 }
 
 func NewPublisher(
-	id int64,
+	uuid uuid.UUID,
 	name string,
 	kota string,
 	createdBy string,
 ) *Publisher {
 	return &Publisher{
+		UUID:      uuid,
 		Name:      name,
 		Kota:      kota,
 		Auditable: NewAuditable(createdBy),
@@ -32,6 +36,7 @@ func (model *Publisher) MapUpdateFrom(from *Publisher) *map[string]interface{} {
 	if from == nil {
 		return &map[string]interface{}{
 			"name":       model.Name,
+			"kota":       model.Kota,
 			"updated_at": model.UpdatedAt,
 		}
 	}
@@ -45,5 +50,6 @@ func (model *Publisher) MapUpdateFrom(from *Publisher) *map[string]interface{} {
 		mapped["kota"] = from.Kota
 	}
 
+	mapped["updated_at"] = model.UpdatedAt
 	return &mapped
 }

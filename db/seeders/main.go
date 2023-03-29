@@ -38,6 +38,14 @@ func createrSampleUser(db *gorm.DB) {
 	}
 }
 
+// CreateSampleAuthor create sample author
+func CreateSampleAuthor(db *gorm.DB) {
+	authorUUID := uuid.New()
+	if err := db.WithContext(context.Background()).Model(&entity.Author{}).Create(entity.NewAuthor(
+		authorUUID,
+		"Nicholas CH",
+		"",
+
 func checkError(err error) {
 	if err != nil {
 		panic(err)

@@ -10,8 +10,8 @@ CREATE SEQUENCE book_id_seq
 CREATE TABLE IF NOT EXISTS main.books (
     "id" BIGINT NOT NULL PRIMARY KEY DEFAULT nextval('book_id_seq'::regclass),
     "uuid" UUID NOT NULL,
-    "isbn" VARCHAR NOT NULL,
     "title" VARCHAR NOT NULL,
+    "isbn" VARCHAR NOT NULL,
     "author_id" BIGINT NOT NULL
         CONSTRAINT books_atuhor_id_foreign REFERENCES main.authors(id) ON UPDATE CASCADE ON DELETE CASCADE,
     "publisher_id" BIGINT NOT NULL

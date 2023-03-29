@@ -1,14 +1,22 @@
 package entity
 
+import (
+	"time"
+
+	"github.com/google/uuid"
+)
+
 const (
 	bookTableName = "main.books"
 )
 
 type Book struct {
-	ID         int64  `json:"id"`
-	Title      string `json:"title"`
-	AuthorID   int64  `json:"author_id"`
-	PubliserID int64  `json:"publisher_id"`
+	ID         int64     `json:"id"`
+	UUID       uuid.UUID `json:"uuid"`
+	Title      string    `json:"title"`
+	ISBN       string    `json:"isbn"`
+	AuthorID   int64     `json:"author_id"`
+	PubliserID int64     `json:"publisher_id"`
 	Auditable
 }
 
@@ -18,13 +26,17 @@ func (model *Book) TableName() string {
 }
 
 func NewBook(
+	uuid uuid.UUID,
 	title string,
+	isbn string,
 	authorID int64,
 	publisherID int64,
 	createdBy string,
 ) *Book {
 	return &Book{
+		UUID:       uuid,
 		Title:      title,
+		ISBN:       isbn,
 		AuthorID:   authorID,
 		PubliserID: publisherID,
 		Auditable:  NewAuditable(createdBy),
@@ -35,6 +47,7 @@ func (model *Book) MapUpdateFrom(from *Book) *map[string]interface{} {
 	if from == nil {
 		return &map[string]interface{}{
 			"title":        model.Title,
+			"isbn":         model.ISBN,
 			"author_id":    model.AuthorID,
 			"publisher_id": model.PubliserID,
 			"updated_at":   model.UpdatedAt,
@@ -46,6 +59,10 @@ func (model *Book) MapUpdateFrom(from *Book) *map[string]interface{} {
 		mapped["title"] = from.Title
 	}
 
+	if model.ISBN != from.ISBN {
+		mapped["isbn"] = from.ISBN
+	}
+
 	if model.AuthorID != from.AuthorID {
 		mapped["author_id"] = from.AuthorID
 	}
@@ -54,5 +71,6 @@ func (model *Book) MapUpdateFrom(from *Book) *map[string]interface{} {
 		mapped["publisher_id"] = from.PubliserID
 	}
 
+	mapped["updated_at"] = time.Now()
 	return &mapped
 }
