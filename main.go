@@ -14,6 +14,7 @@ import (
 
 	authBuilder "gin-starter-gits/modules/auth/v1/builder"
 	authorBuilder "gin-starter-gits/modules/author/v1/builder"
+	bookBuilder "gin-starter-gits/modules/book/v1/builder"
 	publisherBuilder "gin-starter-gits/modules/publisher/v1/builder"
 )
 
@@ -136,6 +137,7 @@ func BuildHandler(
 	authBuilder.BuildAuthHandler(cfg, router, db)
 	authorBuilder.BuildAuthorHandler(cfg, router, db)
 	publisherBuilder.BuildPublisherHandler(cfg, router, db)
+	bookBuilder.BuildBookHandler(cfg, router, db)
 }
 
 func checkError(err error) {

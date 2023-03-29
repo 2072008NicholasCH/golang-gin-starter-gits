@@ -7,6 +7,8 @@ import (
 	authservicev1 "gin-starter-gits/modules/auth/v1/service"
 	authorhandlerv1 "gin-starter-gits/modules/author/v1/handler"
 	authorservicev1 "gin-starter-gits/modules/author/v1/service"
+	bookhandlerv1 "gin-starter-gits/modules/book/v1/handler"
+	bookservicev1 "gin-starter-gits/modules/book/v1/service"
 	publisherhandlerv1 "gin-starter-gits/modules/publisher/v1/handler"
 	publisherservicev1 "gin-starter-gits/modules/publisher/v1/service"
 	"gin-starter-gits/response"
@@ -61,5 +63,18 @@ func PublisherFinderHTTPHandler(cfg config.Config, router *gin.Engine, ptc publi
 	{
 		v1.GET("/publisher", hnd.GetPublishers)
 		v1.GET("/publisher/detail/:id", hnd.GetPublisherByID)
+	}
+}
+
+// BookHTTPHandler is a handler for book APIs
+func BookFinderHTTPHandler(cfg config.Config, router *gin.Engine, btc bookservicev1.BookFinderUseCase) {
+	hnd := bookhandlerv1.NewBookHandler(btc)
+	v1 := router.Group("/v1")
+
+	v1.Use(middleware.Auth(cfg))
+
+	{
+		v1.GET("/book", hnd.GetBooks)
+		v1.GET("/book/detail/:id", hnd.GetBookByID)
 	}
 }
