@@ -1,21 +1,25 @@
 package resource
 
-import "gin-starter-gits/entity"
+import (
+	"gin-starter-gits/entity"
+
+	"github.com/google/uuid"
+)
 
 type GetBookByIDRequest struct {
-	ID int64 `uri:"id" binding:"required"`
+	UUID string `uri:"uuid" binding:"required"`
 }
 
 type Book struct {
-	ID           int64  `json:"id"`
-	TITLE        string `json:"name"`
-	AUTHOR_ID    int64  `json:"author_id"`
-	PUBLISHER_ID int64  `json:"publisher_id"`
+	UUID         uuid.UUID `json:"uuid"`
+	TITLE        string    `json:"name"`
+	AUTHOR_ID    int64     `json:"author_id"`
+	PUBLISHER_ID int64     `json:"publisher_id"`
 }
 
 func NewBookResponse(book *entity.Book) *Book {
 	return &Book{
-		ID:           book.ID,
+		UUID:         book.UUID,
 		TITLE:        book.Title,
 		AUTHOR_ID:    book.AuthorID,
 		PUBLISHER_ID: book.PublisherID,

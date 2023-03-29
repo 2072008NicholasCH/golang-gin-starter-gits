@@ -7,7 +7,21 @@ import (
 )
 
 type GetAuthorByIDRequest struct {
-	ID int64 `uri:"id" binding:"required"`
+	UUID string `uri:"uuid" binding:"required"`
+}
+
+type CreateAuthorRequest struct {
+	NAME   string `json:"name" binding:"required"`
+	GENDER string `json:"gender" binding:"required"`
+}
+
+type UpdateAuthorRequest struct {
+	NAME   string `json:"name" binding:"required"`
+	GENDER string `json:"gender" binding:"required"`
+}
+
+type DeleteAuthorRequest struct {
+	UUID string `uri:"uuid" binding:"required"`
 }
 
 type Author struct {
