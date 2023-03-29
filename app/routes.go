@@ -51,7 +51,7 @@ func AuthHTTPHandler(cfg config.Config, router *gin.Engine, auc authservicev1.Au
 
 //==================================================================================================
 
-// AuthHTTPHandler is a handler for author APIs
+// AuthorHTTPHandler is a handler for author APIs
 func AuthorFinderHTTPHandler(cfg config.Config, router *gin.Engine, atfuc authorservicev1.AuthorFinderUseCase) {
 	hnd := authorhandlerv1.NewAuthorHandler(atfuc)
 	v1 := router.Group("/v1")
@@ -61,6 +61,42 @@ func AuthorFinderHTTPHandler(cfg config.Config, router *gin.Engine, atfuc author
 	{
 		v1.GET("/author", hnd.GetAuthors)
 		v1.GET("/author/detail/:uuid", hnd.GetAuthorByID)
+	}
+}
+
+// AuthorCreatorHTTPHandler is a handler for author APIs
+func AuthorCreatorHTTPHandler(cfg config.Config, router *gin.Engine, atcuc authorservicev1.AuthorCreatorUseCase) {
+	hnd := authorhandlerv1.NewAuthorCreatorHandler(atcuc)
+	v1 := router.Group("/v1")
+
+	v1.Use(middleware.Auth(cfg))
+
+	{
+		v1.POST("/author", hnd.CreateAuthor)
+	}
+}
+
+// AuthorUpdaterHTTPHandler is a handler for author APIs
+func AuthorUpdaterHTTPHandler(cfg config.Config, router *gin.Engine, atuuc authorservicev1.AuthorUpdaterUseCase, atfuc authorservicev1.AuthorFinderUseCase) {
+	hnd := authorhandlerv1.NewAuthorUpdaterHandler(atuuc, atfuc)
+	v1 := router.Group("/v1")
+
+	v1.Use(middleware.Auth(cfg))
+
+	{
+		v1.PUT("/author/:uuid", hnd.UpdateAuthor)
+	}
+}
+
+// AuthorDeleterHTTPHandler is a handler for author APIs
+func AuthorDeleterHTTPHandler(cfg config.Config, router *gin.Engine, atduc authorservicev1.AuthorDeleterUseCase) {
+	hnd := authorhandlerv1.NewAuthorDeleterHandler(atduc)
+	v1 := router.Group("/v1")
+
+	v1.Use(middleware.Auth(cfg))
+
+	{
+		v1.DELETE("/author/:uuid", hnd.DeleteAuthor)
 	}
 }
 

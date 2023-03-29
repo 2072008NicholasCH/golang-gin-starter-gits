@@ -33,7 +33,7 @@ func (puph *PublisherUpdaterHandler) UpdatePublisher(c *gin.Context) {
 		return
 	}
 
-	pubUUID, _ := uuid.Parse(c.Param("id"))
+	pubUUID, _ := uuid.Parse(c.Param("uuid"))
 
 	publisher, err := puph.publisherFinder.GetPublisherByID(c, pubUUID)
 	if err != nil {

@@ -5,6 +5,8 @@ import (
 	"gin-starter-gits/config"
 	"gin-starter-gits/entity"
 	"gin-starter-gits/modules/author/v1/repository"
+
+	"github.com/google/uuid"
 )
 
 type AuthorFinder struct {
@@ -14,7 +16,7 @@ type AuthorFinder struct {
 
 type AuthorFinderUseCase interface {
 	GetAuthors(ctx context.Context) ([]*entity.Author, error)
-	GetAuthorByID(ctx context.Context, id int64) (*entity.Author, error)
+	GetAuthorByID(ctx context.Context, uuid uuid.UUID) (*entity.Author, error)
 }
 
 func NewAuthorFinder(
@@ -32,8 +34,8 @@ func (s *AuthorFinder) GetAuthors(ctx context.Context) ([]*entity.Author, error)
 	return authors, nil
 }
 
-func (s *AuthorFinder) GetAuthorByID(ctx context.Context, id int64) (*entity.Author, error) {
-	author, err := s.authorRepo.FindByID(ctx, id)
+func (s *AuthorFinder) GetAuthorByID(ctx context.Context, uuid uuid.UUID) (*entity.Author, error) {
+	author, err := s.authorRepo.FindByID(ctx, uuid)
 	if err != nil {
 		return nil, err
 	}

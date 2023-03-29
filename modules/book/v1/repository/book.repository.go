@@ -4,6 +4,7 @@ import (
 	"context"
 	"gin-starter-gits/entity"
 
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -13,7 +14,7 @@ type BookRepository struct {
 
 type BookRepositoryUseCase interface {
 	FindAll(ctx context.Context) ([]*entity.Book, error)
-	FindByID(ctx context.Context, id int64) (*entity.Book, error)
+	FindByID(ctx context.Context, uuid uuid.UUID) (*entity.Book, error)
 }
 
 func NewBookRepository(db *gorm.DB) *BookRepository {
@@ -29,9 +30,9 @@ func (r *BookRepository) FindAll(ctx context.Context) ([]*entity.Book, error) {
 	return books, nil
 }
 
-func (r *BookRepository) FindByID(ctx context.Context, id int64) (*entity.Book, error) {
+func (r *BookRepository) FindByID(ctx context.Context, uuid uuid.UUID) (*entity.Book, error) {
 	var book *entity.Book
-	err := r.db.Where("id = ?", id).First(&book).Error
+	err := r.db.Where("uuid = ?", uuid).First(&book).Error
 	if err != nil {
 		return nil, err
 	}

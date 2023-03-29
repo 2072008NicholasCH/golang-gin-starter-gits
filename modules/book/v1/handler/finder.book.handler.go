@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 type BookFinderHandler struct {
@@ -46,7 +47,8 @@ func (bf *BookFinderHandler) GetBookByID(c *gin.Context) {
 		return
 	}
 
-	book, err := bf.bookFinder.GetBookByID(c.Request.Context(), req.ID)
+	bookUUID, _ := uuid.Parse(req.UUID)
+	book, err := bf.bookFinder.GetBookByID(c.Request.Context(), bookUUID)
 	if err != nil {
 		c.JSON(errors.ErrInternalServerError.Code, response.ErrorAPIResponse(errors.ErrInternalServerError.Code, err.Error()))
 		c.Abort()

@@ -16,8 +16,8 @@ type CreatePublisherRequest struct {
 }
 
 type UpdatePublisherRequest struct {
-	NAME string `json:"name" binding:"required"`
-	KOTA string `json:"kota" binding:"required"`
+	NAME string `json:"name"`
+	KOTA string `json:"kota"`
 }
 
 type DeletePublisherRequest struct {

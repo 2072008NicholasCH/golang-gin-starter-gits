@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 type AuthorFinderHandler struct {
@@ -46,7 +47,8 @@ func (af *AuthorFinderHandler) GetAuthorByID(c *gin.Context) {
 		return
 	}
 
-	author, err := af.authorFinder.GetAuthorByID(c.Request.Context(), req.ID)
+	autUUID, _ := uuid.Parse(req.UUID)
+	author, err := af.authorFinder.GetAuthorByID(c.Request.Context(), autUUID)
 	if err != nil {
 		c.JSON(errors.ErrInternalServerError.Code, response.ErrorAPIResponse(errors.ErrInternalServerError.Code, err.Error()))
 		c.Abort()

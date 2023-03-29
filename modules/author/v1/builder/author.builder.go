@@ -15,7 +15,13 @@ func BuildAuthorHandler(cfg config.Config, router *gin.Engine, db *gorm.DB) {
 	ar := authorRepo.NewAuthorRepository(db)
 
 	af := service.NewAuthorFinder(cfg, ar)
+	ac := service.NewAuthorCreator(cfg, ar)
+	au := service.NewAuthorUpdater(cfg, ar)
+	ad := service.NewAuthorDeleter(cfg, ar)
 
 	app.AuthorFinderHTTPHandler(cfg, router, af)
+	app.AuthorCreatorHTTPHandler(cfg, router, ac)
+	app.AuthorUpdaterHTTPHandler(cfg, router, au, af)
+	app.AuthorDeleterHTTPHandler(cfg, router, ad)
 
 }

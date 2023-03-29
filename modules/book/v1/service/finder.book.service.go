@@ -5,6 +5,8 @@ import (
 	"gin-starter-gits/config"
 	"gin-starter-gits/entity"
 	repository "gin-starter-gits/modules/book/v1/repository"
+
+	"github.com/google/uuid"
 )
 
 type BookFinder struct {
@@ -14,7 +16,7 @@ type BookFinder struct {
 
 type BookFinderUseCase interface {
 	GetBooks(ctx context.Context) ([]*entity.Book, error)
-	GetBookByID(ctx context.Context, id int64) (*entity.Book, error)
+	GetBookByID(ctx context.Context, uuid uuid.UUID) (*entity.Book, error)
 }
 
 func NewBookFinder(
@@ -32,8 +34,8 @@ func (s *BookFinder) GetBooks(ctx context.Context) ([]*entity.Book, error) {
 	return books, nil
 }
 
-func (s *BookFinder) GetBookByID(ctx context.Context, id int64) (*entity.Book, error) {
-	book, err := s.bookRepo.FindByID(ctx, id)
+func (s *BookFinder) GetBookByID(ctx context.Context, uuid uuid.UUID) (*entity.Book, error) {
+	book, err := s.bookRepo.FindByID(ctx, uuid)
 	if err != nil {
 		return nil, err
 	}
