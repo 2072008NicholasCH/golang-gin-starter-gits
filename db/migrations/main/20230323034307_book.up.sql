@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS main.books (
     "author_id" BIGINT NOT NULL
         CONSTRAINT books_atuhor_id_foreign REFERENCES main.authors(id) ON UPDATE CASCADE ON DELETE CASCADE,
     "publisher_id" BIGINT NOT NULL
-        CONSTRAINT books_publisher_id_foreign REFERENCES main.publishers(id) ON UPDATE CASCADE ON DELETE CASCADE
+        CONSTRAINT books_publisher_id_foreign REFERENCES main.publishers(id) ON UPDATE CASCADE ON DELETE CASCADE,
     created_by VARCHAR(128) NOT NULL,
     updated_by VARCHAR(128) NOT NULL,
     deleted_by VARCHAR(128),

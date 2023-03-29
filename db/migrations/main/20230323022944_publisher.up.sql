@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS main.publishers (
     "id" BIGINT NOT NULL PRIMARY KEY DEFAULT nextval('publisher_id_seq'::regclass),
     "uuid" UUID NOT NULL,
     "name" VARCHAR NOT NULL,
-    "kota" VARCHAR NOT NULL
+    "kota" VARCHAR NOT NULL,
     created_by VARCHAR(128) NOT NULL,
     updated_by VARCHAR(128) NOT NULL,
     deleted_by VARCHAR(128),
