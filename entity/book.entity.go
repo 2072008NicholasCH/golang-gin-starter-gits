@@ -9,7 +9,7 @@ type Book struct {
 	Title      string `json:"title"`
 	AuthorID   int64  `json:"author_id"`
 	PubliserID int64  `json:"publisher_id"`
-	// Auditable
+	Auditable
 }
 
 func (model *Book) TableName() string {
@@ -21,13 +21,13 @@ func NewBook(
 	title string,
 	authorID int64,
 	publisherID int64,
-	// createdBy string,
+	createdBy string,
 ) *Book {
 	return &Book{
 		Title:      title,
 		AuthorID:   authorID,
 		PubliserID: publisherID,
-		// Auditable: NewAuditable(createdBy),
+		Auditable:  NewAuditable(createdBy),
 	}
 }
 
@@ -37,7 +37,7 @@ func (model *Book) MapUpdateFrom(from *Book) *map[string]interface{} {
 			"title":        model.Title,
 			"author_id":    model.AuthorID,
 			"publisher_id": model.PubliserID,
-			// "updated_at":   model.UpdatedAt,
+			"updated_at":   model.UpdatedAt,
 		}
 	}
 	mapped := make(map[string]interface{})

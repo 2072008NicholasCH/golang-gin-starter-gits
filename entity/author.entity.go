@@ -8,7 +8,7 @@ type Author struct {
 	ID     int64  `json:"id"`
 	Name   string `json:"name"`
 	Gender string `json:"gender"`
-	// Auditable
+	Auditable
 }
 
 func (model *Author) TableName() string {
@@ -18,22 +18,20 @@ func (model *Author) TableName() string {
 func NewAuthor(
 	name string,
 	gender string,
-	//	createdBy string,
-	//
+	createdBy string,
 ) *Author {
 	return &Author{
-		Name:   name,
-		Gender: gender,
-
-		// Auditable: NewAuditable(createdBy),
+		Name:      name,
+		Gender:    gender,
+		Auditable: NewAuditable(createdBy),
 	}
 }
 
 func (model *Author) MapUpdateFrom(from *Author) *map[string]interface{} {
 	if from == nil {
 		return &map[string]interface{}{
-			"name": model.Name,
-			// "updated_at": model.UpdatedAt,
+			"name":       model.Name,
+			"updated_at": model.UpdatedAt,
 		}
 	}
 	mapped := make(map[string]interface{})

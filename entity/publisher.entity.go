@@ -8,7 +8,7 @@ type Publisher struct {
 	ID   int64  `json:"id"`
 	Name string `json:"name"`
 	Kota string `json:"kota"`
-	// Auditable
+	Auditable
 }
 
 func (model *Publisher) TableName() string {
@@ -16,22 +16,23 @@ func (model *Publisher) TableName() string {
 }
 
 func NewPublisher(
+	id int64,
 	name string,
 	kota string,
-	// createdBy string,
+	createdBy string,
 ) *Publisher {
 	return &Publisher{
-		Name: name,
-		Kota: kota,
-		// Auditable: NewAuditable(createdBy),
+		Name:      name,
+		Kota:      kota,
+		Auditable: NewAuditable(createdBy),
 	}
 }
 
 func (model *Publisher) MapUpdateFrom(from *Publisher) *map[string]interface{} {
 	if from == nil {
 		return &map[string]interface{}{
-			"name": model.Name,
-			// "updated_at": model.UpdatedAt,
+			"name":       model.Name,
+			"updated_at": model.UpdatedAt,
 		}
 	}
 	mapped := make(map[string]interface{})
