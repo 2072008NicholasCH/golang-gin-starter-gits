@@ -28,7 +28,13 @@ func (af *AuthorFinderHandler) GetAuthors(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"data": authors})
+	res := make([]*resource.Author, 0)
+
+	for _, author := range authors {
+		res = append(res, resource.NewAuthorResponse(author))
+	}
+
+	c.JSON(http.StatusOK, response.SuccessAPIResponseList(http.StatusOK, "success", &resource.AuthorListResponse{List: res, Total: int64(len(res))}))
 }
 
 // Get Author by ID

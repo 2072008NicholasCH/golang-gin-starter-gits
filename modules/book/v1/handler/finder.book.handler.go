@@ -28,7 +28,13 @@ func (bf *BookFinderHandler) GetBooks(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"data": books})
+	res := make([]*resource.Book, 0)
+
+	for _, book := range books {
+		res = append(res, resource.NewBookResponse(book))
+	}
+
+	c.JSON(http.StatusOK, response.SuccessAPIResponseList(http.StatusOK, "success", &resource.BookListResponse{List: res, Total: int64(len(res))}))
 }
 
 // Get Book by ID
