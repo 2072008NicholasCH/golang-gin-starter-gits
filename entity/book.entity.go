@@ -11,12 +11,12 @@ const (
 )
 
 type Book struct {
-	ID         int64     `json:"id"`
-	UUID       uuid.UUID `json:"uuid"`
-	Title      string    `json:"title"`
-	ISBN       string    `json:"isbn"`
-	AuthorID   int64     `json:"author_id"`
-	PubliserID int64     `json:"publisher_id"`
+	ID          int64     `json:"id"`
+	UUID        uuid.UUID `json:"uuid"`
+	Title       string    `json:"title"`
+	ISBN        string    `json:"isbn"`
+	AuthorID    int64     `json:"author_id"`
+	PublisherID int64     `json:"publisher_id"`
 	Auditable
 }
 
@@ -34,12 +34,12 @@ func NewBook(
 	createdBy string,
 ) *Book {
 	return &Book{
-		UUID:       uuid,
-		Title:      title,
-		ISBN:       isbn,
-		AuthorID:   authorID,
-		PubliserID: publisherID,
-		Auditable:  NewAuditable(createdBy),
+		UUID:        uuid,
+		Title:       title,
+		ISBN:        isbn,
+		AuthorID:    authorID,
+		PublisherID: publisherID,
+		Auditable:   NewAuditable(createdBy),
 	}
 }
 
@@ -49,7 +49,7 @@ func (model *Book) MapUpdateFrom(from *Book) *map[string]interface{} {
 			"title":        model.Title,
 			"isbn":         model.ISBN,
 			"author_id":    model.AuthorID,
-			"publisher_id": model.PubliserID,
+			"publisher_id": model.PublisherID,
 			"updated_at":   model.UpdatedAt,
 		}
 	}
@@ -67,8 +67,8 @@ func (model *Book) MapUpdateFrom(from *Book) *map[string]interface{} {
 		mapped["author_id"] = from.AuthorID
 	}
 
-	if model.PubliserID != from.PubliserID {
-		mapped["publisher_id"] = from.PubliserID
+	if model.PublisherID != from.PublisherID {
+		mapped["publisher_id"] = from.PublisherID
 	}
 
 	mapped["updated_at"] = time.Now()
