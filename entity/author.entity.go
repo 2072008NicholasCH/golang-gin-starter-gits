@@ -46,11 +46,11 @@ func (model *Author) MapUpdateFrom(from *Author) *map[string]interface{} {
 	}
 	mapped := make(map[string]interface{})
 
-	if model.Name != from.Name {
+	if (model.Name != from.Name) && (from.Name != "") {
 		mapped["name"] = from.Name
 	}
 
-	if model.Gender != from.Gender {
+	if (model.Gender != from.Gender) && (from.Gender != "") {
 		mapped["gender"] = from.Gender
 	}
 

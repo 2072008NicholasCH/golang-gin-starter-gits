@@ -55,19 +55,19 @@ func (model *Book) MapUpdateFrom(from *Book) *map[string]interface{} {
 	}
 	mapped := make(map[string]interface{})
 
-	if model.Title != from.Title {
+	if (model.Title != from.Title) && (from.Title != "") {
 		mapped["title"] = from.Title
 	}
 
-	if model.ISBN != from.ISBN {
+	if (model.ISBN != from.ISBN) && (from.ISBN != "") {
 		mapped["isbn"] = from.ISBN
 	}
 
-	if model.AuthorID != from.AuthorID {
+	if (model.AuthorID != from.AuthorID) && (from.AuthorID != 0) {
 		mapped["author_id"] = from.AuthorID
 	}
 
-	if model.PublisherID != from.PublisherID {
+	if (model.PublisherID != from.PublisherID) && (from.PublisherID != 0) {
 		mapped["publisher_id"] = from.PublisherID
 	}
 

@@ -2,6 +2,7 @@ package entity
 
 import (
 	"time"
+
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -51,11 +52,11 @@ func (model *User) MapUpdateFrom(from *User) *map[string]interface{} {
 	}
 	mapped := make(map[string]interface{})
 
-	if model.Name != from.Name {
+	if (model.Name != from.Name) && (from.Name != "") {
 		mapped["name"] = from.Name
 	}
 
-	if model.Email != from.Email {
+	if (model.Email != from.Email) && (from.Email != "") {
 		mapped["email"] = from.Email
 	}
 
