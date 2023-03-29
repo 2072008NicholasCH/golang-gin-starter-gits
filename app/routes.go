@@ -60,7 +60,7 @@ func AuthorFinderHTTPHandler(cfg config.Config, router *gin.Engine, atfuc author
 
 	{
 		v1.GET("/author", hnd.GetAuthors)
-		v1.GET("/author/detail/:id", hnd.GetAuthorByID)
+		v1.GET("/author/detail/:uuid", hnd.GetAuthorByID)
 	}
 }
 
@@ -79,7 +79,7 @@ func PublisherFinderHTTPHandler(
 
 	{
 		v1.GET("/publisher", hnd.GetPublishers)
-		v1.GET("/publisher/detail/:id", hnd.GetPublisherByID)
+		v1.GET("/publisher/detail/:uuid", hnd.GetPublisherByID)
 	}
 }
 
@@ -112,7 +112,7 @@ func PublisherUpdaterHTTPHandler(
 	v1.Use(middleware.Auth(cfg))
 
 	{
-		v1.PUT("/publisher/:id", hnd.UpdatePublisher)
+		v1.PUT("/publisher/:uuid", hnd.UpdatePublisher)
 	}
 }
 
@@ -128,7 +128,7 @@ func PublisherDeleterHTTPHandler(
 	v1.Use(middleware.Auth(cfg))
 
 	{
-		v1.DELETE("/publisher/:id", hnd.DeletePublisher)
+		v1.DELETE("/publisher/:uuid", hnd.DeletePublisher)
 	}
 }
 
@@ -143,7 +143,7 @@ func BookFinderHTTPHandler(cfg config.Config, router *gin.Engine, btc bookservic
 
 	{
 		v1.GET("/book", hnd.GetBooks)
-		v1.GET("/book/detail/:id", hnd.GetBookByID)
+		v1.GET("/book/detail/:uuid", hnd.GetBookByID)
 	}
 }
 

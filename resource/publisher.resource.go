@@ -7,7 +7,7 @@ import (
 )
 
 type GetPublisherByUUIDRequest struct {
-	UUID string `uri:"id" binding:"required"`
+	UUID string `uri:"uuid" binding:"required"`
 }
 
 type CreatePublisherRequest struct {
@@ -21,7 +21,7 @@ type UpdatePublisherRequest struct {
 }
 
 type DeletePublisherRequest struct {
-	UUID string `uri:"id" binding:"required"`
+	UUID string `uri:"uuid" binding:"required"`
 }
 
 type Publisher struct {
