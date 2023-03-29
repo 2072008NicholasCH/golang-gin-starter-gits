@@ -171,8 +171,8 @@ func PublisherDeleterHTTPHandler(
 //==================================================================================================
 
 // BookHTTPHandler is a handler for book APIs
-func BookFinderHTTPHandler(cfg config.Config, router *gin.Engine, btc bookservicev1.BookFinderUseCase) {
-	hnd := bookhandlerv1.NewBookHandler(btc)
+func BookFinderHTTPHandler(cfg config.Config, router *gin.Engine, bfuc bookservicev1.BookFinderUseCase) {
+	hnd := bookhandlerv1.NewBookHandler(bfuc)
 	v1 := router.Group("/v1")
 
 	v1.Use(middleware.Auth(cfg))
@@ -180,6 +180,42 @@ func BookFinderHTTPHandler(cfg config.Config, router *gin.Engine, btc bookservic
 	{
 		v1.GET("/book", hnd.GetBooks)
 		v1.GET("/book/detail/:uuid", hnd.GetBookByID)
+	}
+}
+
+// BookCreatorHTTPHandler is a handler for book APIs
+func BookCreatorHTTPHandler(cfg config.Config, router *gin.Engine, bcuc bookservicev1.BookCreatorUseCase) {
+	hnd := bookhandlerv1.NewBookCreatorHandler(bcuc)
+	v1 := router.Group("/v1")
+
+	v1.Use(middleware.Auth(cfg))
+
+	{
+		v1.POST("/book", hnd.CreateBook)
+	}
+}
+
+// BookUpdaterHTTPHandler is a handler for book APIs
+func BookUpdaterHTTPHandler(cfg config.Config, router *gin.Engine, buuc bookservicev1.BookUpdaterUseCase, bfuc bookservicev1.BookFinderUseCase) {
+	hnd := bookhandlerv1.NewBookUpdaterHandler(buuc, bfuc)
+	v1 := router.Group("/v1")
+
+	v1.Use(middleware.Auth(cfg))
+
+	{
+		v1.PUT("/book/:uuid", hnd.UpdateBook)
+	}
+}
+
+// BookDeleterHTTPHandler is a handler for book APIs
+func BookDeleterHTTPHandler(cfg config.Config, router *gin.Engine, bduc bookservicev1.BookDeleterUseCase) {
+	hnd := bookhandlerv1.NewBookDeleterHandler(bduc)
+	v1 := router.Group("/v1")
+
+	v1.Use(middleware.Auth(cfg))
+
+	{
+		v1.DELETE("/book/:uuid", hnd.DeleteBook)
 	}
 }
 

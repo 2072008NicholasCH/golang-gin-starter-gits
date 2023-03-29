@@ -26,7 +26,8 @@ func NewBookHandler(
 func (bf *BookFinderHandler) GetBooks(c *gin.Context) {
 	books, err := bf.bookFinder.GetBooks(c)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, response.ErrorAPIResponse(http.StatusInternalServerError, err.Error()))
+		c.Abort()
 		return
 	}
 	res := make([]*resource.Book, 0)

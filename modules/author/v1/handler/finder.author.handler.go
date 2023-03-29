@@ -26,7 +26,8 @@ func NewAuthorHandler(
 func (af *AuthorFinderHandler) GetAuthors(c *gin.Context) {
 	authors, err := af.authorFinder.GetAuthors(c)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, response.ErrorAPIResponse(http.StatusInternalServerError, err.Error()))
+		c.Abort()
 		return
 	}
 	res := make([]*resource.Author, 0)

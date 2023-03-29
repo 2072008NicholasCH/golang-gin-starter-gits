@@ -26,7 +26,8 @@ func NewPublisherHandler(
 func (pf *PublisherFinderHandler) GetPublishers(c *gin.Context) {
 	publishers, err := pf.publisherFinder.GetPublishers(c)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, response.ErrorAPIResponse(http.StatusInternalServerError, err.Error()))
+		c.Abort()
 		return
 	}
 	res := make([]*resource.Publisher, 0)

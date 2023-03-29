@@ -26,18 +26,18 @@ func NewPublisherRepository(db *gorm.DB) *PublisherRepository {
 	return &PublisherRepository{db}
 }
 
-func (r *PublisherRepository) FindAll(ctx context.Context) ([]*entity.Publisher, error) {
+func (pr *PublisherRepository) FindAll(ctx context.Context) ([]*entity.Publisher, error) {
 	var publishers []*entity.Publisher
-	err := r.db.Find(&publishers).Error
+	err := pr.db.Find(&publishers).Error
 	if err != nil {
 		return nil, err
 	}
 	return publishers, nil
 }
 
-func (r *PublisherRepository) FindByID(ctx context.Context, uuid uuid.UUID) (*entity.Publisher, error) {
+func (pr *PublisherRepository) FindByID(ctx context.Context, uuid uuid.UUID) (*entity.Publisher, error) {
 	var publisher *entity.Publisher
-	err := r.db.Where("uuid = ?", uuid).First(&publisher).Error
+	err := pr.db.Where("uuid = ?", uuid).First(&publisher).Error
 	if err != nil {
 		return nil, err
 	}
@@ -45,8 +45,8 @@ func (r *PublisherRepository) FindByID(ctx context.Context, uuid uuid.UUID) (*en
 }
 
 // CreatePublisher creates a new publisher
-func (r *PublisherRepository) CreatePublisher(ctx context.Context, publisher *entity.Publisher) (*entity.Publisher, error) {
-	err := r.db.Create(&publisher).Error
+func (pr *PublisherRepository) CreatePublisher(ctx context.Context, publisher *entity.Publisher) (*entity.Publisher, error) {
+	err := pr.db.Create(&publisher).Error
 	if err != nil {
 		return nil, err
 	}
@@ -55,8 +55,8 @@ func (r *PublisherRepository) CreatePublisher(ctx context.Context, publisher *en
 
 // UpdatePublisher updates a publisher
 //
-//	func (r *PublisherRepository) UpdatePublisher(ctx context.Context, publisher *entity.Publisher) error {
-//		err := r.db.Save(&publisher).Error
+//	func (pr *PublisherRepository) UpdatePublisher(ctx context.Context, publisher *entity.Publisher) error {
+//		err := pr.db.Save(&publisher).Error
 //		if err != nil {
 //			return err
 //		}
@@ -85,8 +85,8 @@ func (pr *PublisherRepository) UpdatePublisher(ctx context.Context, publisher *e
 }
 
 // DeletePublisher deletes a publisher
-func (r *PublisherRepository) DeletePublisher(ctx context.Context, uuid uuid.UUID) error {
-	err := r.db.Where("uuid = ?", uuid).Delete(&entity.Publisher{}).Error
+func (pr *PublisherRepository) DeletePublisher(ctx context.Context, uuid uuid.UUID) error {
+	err := pr.db.Where("uuid = ?", uuid).Delete(&entity.Publisher{}).Error
 	if err != nil {
 		return err
 	}
