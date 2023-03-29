@@ -16,8 +16,8 @@ type CreateAuthorRequest struct {
 }
 
 type UpdateAuthorRequest struct {
-	NAME   string `json:"name" binding:"required"`
-	GENDER string `json:"gender" binding:"required"`
+	NAME   string `json:"name"`
+	GENDER string `json:"gender"`
 }
 
 type DeleteAuthorRequest struct {
