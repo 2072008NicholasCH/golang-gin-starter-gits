@@ -6,8 +6,11 @@ import (
 	"gin-starter-gits/config"
 	"net/http"
 	"os"
+	"context"
+	"log"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gomodule/redigo/redis"
 	"gorm.io/gorm"
 
 	"gin-starter-gits/utils"
@@ -15,6 +18,7 @@ import (
 	authBuilder "gin-starter-gits/modules/auth/v1/builder"
 	authorBuilder "gin-starter-gits/modules/author/v1/builder"
 	bookBuilder "gin-starter-gits/modules/book/v1/builder"
+	bookBuilderv2 "gin-starter-gits/modules/book/v2/builder"
 	publisherBuilder "gin-starter-gits/modules/publisher/v1/builder"
 )
 
@@ -28,7 +32,7 @@ var environment string
 type Health struct {
 	Status   string `json:"status"`
 	Database string `json:"database"`
-	// Redis    string `json:"redis"` // Uncomment if you use redis
+	Redis    string `json:"redis"` // Uncomment if you use redis
 }
 
 var health *Health
@@ -59,8 +63,8 @@ func main() {
 	checkError(err)
 	health.Database = statusOK
 
-	// redisPool := buildRedisPool(cfg)
-	// health.Redis = statusOK
+	redisPool := buildRedisPool(cfg)
+	health.Redis = statusOK
 
 	if cfg.Env == "production" {
 		gin.SetMode(gin.ReleaseMode)
@@ -97,7 +101,7 @@ func main() {
 		*cfg,
 		router,
 		db,
-		// redisPool,
+		redisPool,
 		// awsSession
 	)
 
@@ -118,7 +122,7 @@ func BuildHandler(
 	cfg config.Config,
 	router *gin.Engine,
 	db *gorm.DB,
-	// redisPool *redis.Pool,
+	redisPool *redis.Pool,
 	// awsSession *session.Session
 ) {
 	// app.DefaultHTTPHandler(cfg, router)
@@ -138,6 +142,8 @@ func BuildHandler(
 	authorBuilder.BuildAuthorHandler(cfg, router, db)
 	publisherBuilder.BuildPublisherHandler(cfg, router, db)
 	bookBuilder.BuildBookHandler(cfg, router, db)
+	bookBuilderv2.BuildBookHandler(cfg, router, db, redisPool)
+
 }
 
 func checkError(err error) {
@@ -176,19 +182,19 @@ func CORSMiddleware() gin.HandlerFunc {
 // }
 
 // buildRedisPool is a function to build redis pool
-// func buildRedisPool(cfg *config.Config) *redis.Pool {
-// 	cachePool := utils.NewPool(cfg.Redis.Address, cfg.Redis.Password)
+func buildRedisPool(cfg *config.Config) *redis.Pool {
+	cachePool := utils.NewPool(cfg.Redis.Address, cfg.Redis.Password)
 
-// 	ctx := context.Background()
-// 	_, err := cachePool.GetContext(ctx)
+	ctx := context.Background()
+	_, err := cachePool.GetContext(ctx)
 
-// 	if err != nil {
-// 		checkError(err)
-// 	}
+	if err != nil {
+		checkError(err)
+	}
 
-// 	log.Print("redis successfully connected!")
-// 	return cachePool
-// }
+	log.Print("redis successfully connected!")
+	return cachePool
+}
 
 // createPubSubClient is a function to create pubsub client
 // func createPubSubClient(projectID, googleSaFile string) *pubsubSDK.PubSub {

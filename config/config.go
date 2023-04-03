@@ -15,7 +15,7 @@ type Config struct {
 	Postgres  Postgres
 	// Google    Google
 	// AWS       AWS
-	// Redis     Redis
+	Redis     Redis
 	// SMTP      SMTP
 	// Image     Image
 	// OneSignal OneSignal
@@ -75,10 +75,10 @@ type Postgres struct {
 }
 
 // Redis holds configuration for the Redis.
-// type Redis struct {
-// 	Address  string `env:"REDIS_ADDRESS"`
-// 	Password string `env:"REDIS_PASSWORD"`
-// }
+type Redis struct {
+	Address  string `env:"REDIS_ADDRESS"`
+	Password string `env:"REDIS_PASSWORD"`
+}
 
 // SMTP holds configuration for smtp email.
 // type SMTP struct {
